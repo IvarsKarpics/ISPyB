@@ -1,6 +1,7 @@
+USE `pydb`;
+
 INSERT IGNORE INTO SchemaStatus (scriptName, schemaStatus) VALUES ('2018_12_18_v_phasing_phasingDirectory.sql', 'ONGOING');
 
-USE `pydb`;
 CREATE 
      OR REPLACE ALGORITHM = MERGE 
     DEFINER = `pxadmin`@`%` 

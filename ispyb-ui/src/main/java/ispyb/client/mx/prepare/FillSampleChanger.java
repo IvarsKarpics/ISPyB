@@ -53,7 +53,8 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 
 /**
- * @struts.action name="viewContainerForm" path="/user/fillSampleChanger" type="ispyb.client.mx.prepare.FillSampleChanger"
+ * @struts.action name="viewContainerForm" path="/user/fillSampleChanger"
+ *                type="ispyb.client.mx.prepare.FillSampleChanger"
  *                validate="false" parameter="reqCode" scope="request"
  * @struts.action-forward name="success" path="user.prepare.fillSC.page"
  * @struts.action-forward name="error" path="site.default.error.page"
@@ -116,10 +117,11 @@ public class FillSampleChanger extends org.apache.struts.actions.DispatchAction 
 			List<Container3VO> containerList = containerService.findByProposalIdAndStatus(proposalId,
 					Constants.CONTAINER_STATUS_PROCESS);
 
+			LOG.debug(containerList);
 			if (!containerList.isEmpty()) {
 
 				for (Iterator<Container3VO> itContainer = containerList.iterator(); itContainer.hasNext();) {
-
+					LOG.debug(1);
 					// Container record
 					Container3VO container = itContainer.next();
 					listInfo.add(container);
@@ -137,28 +139,29 @@ public class FillSampleChanger extends org.apache.struts.actions.DispatchAction 
 					List<BLSample3VO> sampleList = new ArrayList<BLSample3VO>(container.getSampleVOs());
 					nbSampleList.add(sampleList.size());
 				}
+				LOG.debug(2);
 
 				// Build beamline list
 				List<OptionValue> beamlineValueList = new ArrayList<OptionValue>();
 
 				String[] beamlineList = Constants.BEAMLINE_LOCATION;
-				if(Constants.SITE_IS_ALBA()){
+				if (Constants.SITE_IS_ALBA()) {
 					beamlineList = ALBABeamlineEnum.getBeamlineNamesInActivity();
 				}
-				if(Constants.SITE_IS_ESRF()){
+				if (Constants.SITE_IS_ESRF()) {
 					beamlineList = ESRFBeamlineEnum.getBeamlineNamesInActivity();
 				}
-				if(Constants.SITE_IS_EMBL()){
+				if (Constants.SITE_IS_EMBL()) {
 					beamlineList = EMBLBeamlineEnum.getBeamlineNamesInActivity();
 				}
-				if (Constants.SITE_IS_MAXIV()){
+				if (Constants.SITE_IS_MAXIV()) {
 					beamlineList = MAXIVBeamlineEnum.getBeamlineNamesInActivity();
 				}
-				if(Constants.SITE_IS_SOLEIL()){
+				if (Constants.SITE_IS_SOLEIL()) {
 					beamlineList = SOLEILBeamlineEnum.getBeamlineNamesInActivity();
 				}
-				
-				
+
+				LOG.debug(3);
 				for (int i = 0; i < beamlineList.length; i++) {
 					OptionValue option = new OptionValue(beamlineList[i], beamlineList[i]);
 					beamlineValueList.add(option);
@@ -166,6 +169,7 @@ public class FillSampleChanger extends org.apache.struts.actions.DispatchAction 
 				session.setAttribute("beamlineList", beamlineValueList);
 
 				// Build sample changer location list
+				LOG.debug(4);
 				List<OptionValue> scValueList = new ArrayList<OptionValue>();
 				for (int i = 1; i <= Constants.LOCATIONS_IN_SC; i++) {
 					OptionValue option = new OptionValue("" + i, "" + i);
@@ -175,16 +179,18 @@ public class FillSampleChanger extends org.apache.struts.actions.DispatchAction 
 			}
 
 			// Populate form
+			LOG.debug(5);
 			form.setContainersInfo(listInfo);
 			form.setContainerIdList(containerIdList.toArray(new String[containerIdList.size()]));
 			form.setShipmentNameList(shipmentNameList.toArray(new String[shipmentNameList.size()]));
 			form.setCreationDateList(creationDateList.toArray(new Date[creationDateList.size()]));
 			form.setNbSampleList(nbSampleList.toArray(new Integer[nbSampleList.size()]));
 			form.setBeamlineLocationList(beamlineLocationList.toArray(new String[beamlineLocationList.size()]));
-			form.setSampleChangerLocationList(sampleChangerLocationList.toArray(new String[sampleChangerLocationList
-					.size()]));
+			form.setSampleChangerLocationList(
+					sampleChangerLocationList.toArray(new String[sampleChangerLocationList.size()]));
 
 			FormUtils.setFormDisplayMode(request, actForm, FormUtils.EDIT_MODE);
+			LOG.debug(6);
 		} catch (Exception e) {
 			errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", e.toString()));
 			LOG.error(e.toString());
@@ -256,8 +262,8 @@ public class FillSampleChanger extends org.apache.struts.actions.DispatchAction 
 				// Check if already exists
 				if (puckSet.contains(puckString)) {
 					LOG.debug("ERROR: puck " + sampleChangerLocation + " already used at " + beamlineLocation);
-					errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", "Puck "
-							+ sampleChangerLocation + " already used at " + beamlineLocation));
+					errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail",
+							"Puck " + sampleChangerLocation + " already used at " + beamlineLocation));
 					saveErrors(request, errors);
 					return mapping.findForward("error");
 				}

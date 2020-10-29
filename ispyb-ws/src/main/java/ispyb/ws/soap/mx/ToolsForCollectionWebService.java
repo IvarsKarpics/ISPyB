@@ -369,9 +369,6 @@ public class ToolsForCollectionWebService {
 
 			}
 
-			LOG.debug(" storeOrUpdateDataCollection with gaps " + vo.getUndulatorGap1() + ", " + vo.getUndulatorGap2() + ", "
-					+ vo.getUndulatorGap3());
-
 			DataCollection3VO dataCollectionValue = null;
 			DataCollection3Service dataCollectionService = (DataCollection3Service) ejb3ServiceLocator
 					.getLocalService(DataCollection3Service.class);
@@ -432,7 +429,10 @@ public class ToolsForCollectionWebService {
 			}
 
 			dataCollection.checkValues(dataCollectionId == null || dataCollectionId == 0);
-
+			
+			LOG.debug("Updated DataCollection sessionId : " + dataCollectionGroupVO.getSessionVOId());
+			dataCollection.setSessionId(dataCollectionGroupVO.getSessionVOId());
+			
 			if (dataCollectionId == null || dataCollectionId == 0) {
 				dataCollection.setDataCollectionId(null);
 				dataCollectionValue = dataCollectionService.create(dataCollection);
@@ -444,6 +444,8 @@ public class ToolsForCollectionWebService {
 			}
 			// update session
 			updateSession(dataCollection.getDataCollectionGroupVO().getSessionVO());
+			
+		
 			return dataCollectionId;
 		} catch (Exception e) {
 			e.printStackTrace();

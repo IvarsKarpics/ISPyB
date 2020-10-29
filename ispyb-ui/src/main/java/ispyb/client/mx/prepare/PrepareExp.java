@@ -148,7 +148,7 @@ public class PrepareExp extends org.apache.struts.actions.DispatchAction {
 			boolean isViewSelected = false;
 			if (viewSelected != null)
 				isViewSelected = (viewSelected.equals("true"));
-			int nbDays = 60;
+			int nbDays = 180;
 			List<Dewar3VO> listDewars = new ArrayList<Dewar3VO>();
 
 			if (isAll) {

@@ -465,10 +465,10 @@
 											overwrite="true" />
 										<copy
 											file="${basedir}/src/main/webapp/mergedir/securityfilter-config.xml"
-											tofile="${build.directory}//WEB-INF/securityfilter-config.xml"
+											tofile="${project.build.directory}//WEB-INF/securityfilter-config.xml"
 											overwrite="true" />
 										<echo message="Copy of securityfilter files done!" />
-										<echo message="project base direct: ${build.directory}" />
+										<echo message="project base direct: ${project.build.directory}" />
 									</tasks>
 								</configuration>
 							</execution>
@@ -479,7 +479,7 @@
 
 			<properties>
 
-				<build.directory>${project.build.directory}/${project.artifactId}-${project.version}</build.directory>
+				<project.build.directory>${project.build.directory}/${project.artifactId}-${project.version}</project.build.directory>
 
 			</properties>
 		</profile>

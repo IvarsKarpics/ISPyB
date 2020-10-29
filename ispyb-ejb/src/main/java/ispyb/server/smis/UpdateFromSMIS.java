@@ -301,7 +301,7 @@ public class UpdateFromSMIS {
 			// Get the service
 			SMISWebService sws = SMISWebServiceGenerator.getWs();
 			LOG.info("Update of ISPyB from User Portal using soap WS, proposal in user portal pk = " + pk);
-			
+			LOG.info("1 ");
 			switch (Constants.getSite()) {
 			case ESRF:
 				// only sessions WITH local contacts are retrieved
@@ -309,6 +309,7 @@ public class UpdateFromSMIS {
 				break;
 			case EMBL:
 				smisSessions_ = sws.findRecentSessionsInfoLightForProposalPk(pk);
+				//smisSessions_ = sws.findRecentSessionsInfoLightForProposalPkAndDays(pk, nbDays);
 				break;
 			case MAXIV:
 				smisSessions_ = sws.findRecentSessionsInfoLightForProposalPkAndDays(pk, nbDays);
@@ -322,7 +323,7 @@ public class UpdateFromSMIS {
 			mainProposers_ = sws.findMainProposersForProposal(pk);
 			smisSamples_ = sws.findSamplesheetInfoLightForProposalPk(pk);
 			labContacts_ = sws.findParticipantsForProposal(pk);
-			
+			LOG.info(smisSamples_);
 			updateThisProposalFromLists(smisSessions_,mainProposers_,smisSamples_,labContacts_,pk);	
 		}
 

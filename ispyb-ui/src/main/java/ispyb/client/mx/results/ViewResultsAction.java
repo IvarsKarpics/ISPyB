@@ -2251,6 +2251,7 @@ public class ViewResultsAction extends DispatchAction {
 
 							List<AutoProcScalingStatistics3VO> scalingStatistics = apssService.findByAutoProcId(apv.getAutoProcId(),
 									"innerShell");
+							/*
 							boolean existsUnderRmergeAndOverSigma = false;
 
 							for (Iterator<AutoProcScalingStatistics3VO> j = scalingStatistics.iterator(); j.hasNext();) {
@@ -2263,6 +2264,7 @@ public class ViewResultsAction extends DispatchAction {
 								a.remove();
 								nbRemoved = nbRemoved +1;
 							}
+							*/
 						}
 						LOG.debug("..nbAutoProc " + anomalous + " found=" + autoProcsAnomalous.size());
 						for (Iterator<AutoProc3VO> iterator = autoProcsAnomalous.iterator(); iterator.hasNext();) {
@@ -2646,7 +2648,7 @@ public class ViewResultsAction extends DispatchAction {
 
 						List<AutoProcScalingStatistics3VO> scalingStatistics = apssService.findByAutoProcId(apv.getAutoProcId(),
 								"innerShell");
-						boolean existsUnderRmergeAndOverSigma = false;
+						/*boolean existsUnderRmergeAndOverSigma = false;
 
 						for (Iterator<AutoProcScalingStatistics3VO> j = scalingStatistics.iterator(); j.hasNext();) {
 							AutoProcScalingStatistics3VO stats = j.next();
@@ -2658,6 +2660,7 @@ public class ViewResultsAction extends DispatchAction {
 							a.remove();
 							nbRemoved = nbRemoved+1;
 						}
+						*/
 					}
 					LOG.debug("..nbAutoProc " + anomalous + " found=" + autoProcsAnomalous.size());
 					for (Iterator<AutoProc3VO> iterator = autoProcsAnomalous.iterator(); iterator.hasNext();) {

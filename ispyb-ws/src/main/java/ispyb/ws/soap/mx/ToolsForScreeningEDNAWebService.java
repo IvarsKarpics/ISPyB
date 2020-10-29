@@ -150,13 +150,14 @@ public class ToolsForScreeningEDNAWebService {
 	@WebResult(name = "screeningId")
 	public Integer storeOrUpdateScreening(java.lang.Integer screeningId,
 			@WebParam(name = "dataCollectionGroupId") java.lang.Integer dataCollectionGroupId,
+			@WebParam(name = "dataCollectionId") java.lang.Integer dataCollectionId,
 			@WebParam(name = "diffractionPlanId") java.lang.Integer diffractionPlanId,
 			@WebParam(name = "recordTimeStamp") Date recordTimeStamp,
 			@WebParam(name = "programVersion") java.lang.String programVersion,
 			@WebParam(name = "comments") java.lang.String comments,
 			@WebParam(name = "shortComments") java.lang.String shortComments,
 			@WebParam(name = "xmlSampleInformation") java.lang.String xmlSampleInformation) throws Exception {
-		ScreeningWS3VO vo = new ScreeningWS3VO(screeningId, dataCollectionGroupId, diffractionPlanId, recordTimeStamp,
+		ScreeningWS3VO vo = new ScreeningWS3VO(screeningId, dataCollectionGroupId, dataCollectionId, diffractionPlanId, recordTimeStamp,
 				programVersion, comments, shortComments, xmlSampleInformation);
 		return storeOrUpdateScreeningValue(vo);
 	}

@@ -76,29 +76,40 @@ import ispyb.server.common.vos.shipping.Shipping3VO;
 import ispyb.server.mx.vos.collections.Session3VO;
 
 /**
- * @struts.action name="viewDewarForm" path="/user/viewDewarAction" type="ispyb.client.common.shipping.ViewDewarAction"
+ * @struts.action name="viewDewarForm" path="/user/viewDewarAction"
+ *                type="ispyb.client.common.shipping.ViewDewarAction"
  *                validate="false" parameter="reqCode" scope="request"
  * 
- * @struts.action name="viewDewarForm" path="/reader/viewDewarAction" type="ispyb.client.common.shipping.ViewDewarAction"
+ * @struts.action name="viewDewarForm" path="/reader/viewDewarAction"
+ *                type="ispyb.client.common.shipping.ViewDewarAction"
  *                validate="false" parameter="reqCode" scope="request"
  * 
- * @struts.action-forward name="dewarViewOldPage" path="user.dewar.view.old.page"
+ * @struts.action-forward name="dewarViewOldPage"
+ *                        path="user.dewar.view.old.page"
  * 
- * @struts.action-forward name="dewarViewPage" path="user.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarViewPage"
+ *                        path="user.shipping.dewar.view.page"
  * 
- * @struts.action-forward name="dewarReimbursePage" path="user.shipping.dewar.reimburse.page"
+ * @struts.action-forward name="dewarReimbursePage"
+ *                        path="user.shipping.dewar.reimburse.page"
  * 
- * @struts.action-forward name="dewarBlomViewPage" path="blom.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarBlomViewPage"
+ *                        path="blom.shipping.dewar.view.page"
  * 
- * @struts.action-forward name="dewarFedexmanagerViewPage" path="fedexmanager.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarFedexmanagerViewPage"
+ *                        path="fedexmanager.shipping.dewar.view.page"
  * 
- * @struts.action-forward name="dewarStoreViewPage" path="store.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarStoreViewPage"
+ *                        path="store.shipping.dewar.view.page"
  * 
- * @struts.action-forward name="dewarLocalcontactViewPage" path="localcontact.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarLocalcontactViewPage"
+ *                        path="localcontact.shipping.dewar.view.page"
  * 
- * @struts.action-forward name="dewarLabelsPage" path="user.shipping.dewar.labels.page"
+ * @struts.action-forward name="dewarLabelsPage"
+ *                        path="user.shipping.dewar.labels.page"
  * 
- * @struts.action-forward name="dewarManagerViewPage" path="manager.shipping.dewar.view.page"
+ * @struts.action-forward name="dewarManagerViewPage"
+ *                        path="manager.shipping.dewar.view.page"
  * 
  * @struts.action-forward name="error" path="site.default.error.page"
  * 
@@ -149,7 +160,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 
 	@Override
 	public ActionForward execute(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-								 final HttpServletResponse response) throws Exception {
+			final HttpServletResponse response) throws Exception {
 		this.initServices();
 		return super.execute(mapping, form, request, response);
 	}
@@ -168,7 +179,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	 * @return
 	 */
 	public ActionForward display(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-								 HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		// ---------------------------------------------------------------------------------------------------
 		// Retrieve Attributes
@@ -220,7 +231,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	 * @return
 	 */
 	public ActionForward readOnly(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-								  HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		try {
 			// ---------------------------------------------------------------------------------------------------
@@ -296,7 +307,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	}
 
 	public ActionForward generateLabels(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-										HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 
 		ActionMessages errors = new ActionMessages();
 		try {
@@ -360,11 +371,9 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
 			// try {
-			if (returnLabContact.getDefaultCourrierCompany() != null
-					&& returnLabContact.getDefaultCourrierCompany().equals(
-					Constants.SHIPPING_DELIVERY_AGENT_NAME_WORLDCOURIER)) {
-				pdfFormFiller.init(
-						request.getRealPath(Constants.TEMPLATE_PDF_PARCEL_LABELS_WORLDCOURIER_RELATIVE_PATH),
+			if (returnLabContact.getDefaultCourrierCompany() != null && returnLabContact.getDefaultCourrierCompany()
+					.equals(Constants.SHIPPING_DELIVERY_AGENT_NAME_WORLDCOURIER)) {
+				pdfFormFiller.init(request.getRealPath(Constants.TEMPLATE_PDF_PARCEL_LABELS_WORLDCOURIER_RELATIVE_PATH),
 						outputStream);
 			} else {
 				pdfFormFiller.init(request.getRealPath(Constants.TEMPLATE_PDF_PARCEL_LABELS_RELATIVE_PATH),
@@ -401,8 +410,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 				fieldNamesAndValues.put("TF_localContactName", "unknown");
 			}
 
-			fieldNamesAndValues.put("TF_sendingLabContactName", sendingPerson.getFamilyName().toUpperCase() + " "
-					+ sendingPerson.getGivenName());
+			fieldNamesAndValues.put("TF_sendingLabContactName",
+					sendingPerson.getFamilyName().toUpperCase() + " " + sendingPerson.getGivenName());
 
 			// Phone (only if exists)
 			String sendingPhone = "unknown";
@@ -417,15 +426,20 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			fieldNamesAndValues.put("TF_sendingLabContactFax", sendingFax);
 
 			fieldNamesAndValues.put("TF_sendingLaboratoryName", sendingLaboratory.getName());
-			/*if (Constants.SITE_IS_MAXIV()) {
-				fieldNamesAndValues.put("TF_sendingLaboratoryAddress", StringUtils.breakString(sendingLaboratory.getAddress(), 30));
-			} else {
-				fieldNamesAndValues.put("TF_sendingLaboratoryAddress", sendingLaboratory.getAddress());
-			}*/
+			/*
+			 * if (Constants.SITE_IS_MAXIV()) {
+			 * fieldNamesAndValues.put("TF_sendingLaboratoryAddress",
+			 * StringUtils.breakString(sendingLaboratory.getAddress(), 30)); } else {
+			 * fieldNamesAndValues.put("TF_sendingLaboratoryAddress",
+			 * sendingLaboratory.getAddress()); }
+			 */
 
-			fieldNamesAndValues.put("TF_sendingLaboratoryAddress", sendingLaboratory.getAddress());
-			fieldNamesAndValues.put("TF_returnLabContactName", returnPerson.getFamilyName().toUpperCase() + " "
-					+ returnPerson.getGivenName());
+			fieldNamesAndValues.put("TF_sendingLaboratoryAddress",
+					"\n test" + sendingLaboratory.getAddress() + "\n" + "test");
+			LOG.error("Print labels ..... ");
+			LOG.error(sendingLaboratory.getAddress());
+			fieldNamesAndValues.put("TF_returnLabContactName",
+					returnPerson.getFamilyName().toUpperCase() + " " + returnPerson.getGivenName());
 
 			// Phone (only if exists)
 			String returnPhone = "unknown";
@@ -477,7 +491,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 				dewar.setDewarStatus(Constants.SHIPPING_STATUS_READY_TO_GO);
 				dewar3Service.update(dewar);
 				// Refresh dewarFullFacade
-				// old DewarFullFacadeLocal dewarFullFacade = DewarFullFacadeUtil.getLocalHome().create();
+				// old DewarFullFacadeLocal dewarFullFacade =
+				// DewarFullFacadeUtil.getLocalHome().create();
 				// old DewarFullValue dewarFull = dewarFullFacade.findByPrimaryKey(dewarId);
 				Dewar3VO dewarFull = this.dewar3Service.findByPk(dewarId, false, false);
 				dewarFull.setDewarStatus(Constants.SHIPPING_STATUS_READY_TO_GO);
@@ -487,7 +502,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			Timestamp dateTime = getDateTime();
 			// old DewarTransportHistoryFacadeLocal _dewarTransportHistoryFacade =
 			// DewarTransportHistoryFacadeUtil.getLocalHome().create();
-			// old DewarTransportHistoryLightValue newHistory = new DewarTransportHistoryLightValue();
+			// old DewarTransportHistoryLightValue newHistory = new
+			// DewarTransportHistoryLightValue();
 			DewarTransportHistory3VO newHistory = new DewarTransportHistory3VO();
 			newHistory.setDewarStatus(Constants.SHIPPING_STATUS_READY_TO_GO);
 			newHistory.setStorageLocation("");
@@ -528,7 +544,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	 * @return
 	 */
 	public ActionForward displaySlave(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-									  HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		try {
 			// ---------------------------------------------------------------------------------------------------
@@ -559,7 +575,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 
 			// ---------------------------------------------------------------------------------------------------
 			// Build Query
-			// old ContainerFacadeLocal containers = ContainerFacadeUtil.getLocalHome().create();
+			// old ContainerFacadeLocal containers =
+			// ContainerFacadeUtil.getLocalHome().create();
 
 			// Retrieve information from DB
 			List<Container3VO> listInfoSlave = null;
@@ -602,7 +619,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	 * @return
 	 */
 	public ActionForward search(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-								HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		try {
 			// ---------------------------------------------------------------------------------------------------
@@ -627,7 +644,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			// -----------------------------------------------------
 
 			// Search Dewars
-			if (mProposalId == null) {  // proposalId
+			if (mProposalId == null) { // proposalId
 				return mapping.findForward("error");
 			}
 
@@ -666,7 +683,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	}
 
 	public ActionForward getReimbursed(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-									   HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		ActionMessages messages = new ActionMessages();
 		String dewarId = request.getParameter(Constants.DEWAR_ID);
@@ -681,10 +698,14 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			Dewar3VO info = selectedDewar;
 			form.setNbReimbursedDewars(info.getSessionVO().getNbReimbDewars());
 			form.setInfo(info);
-			form.setFedexCode(info.getSessionVO().getProposalVO().getCode().toUpperCase() + "-" + info.getSessionVO().getProposalVO().getNumber() + "/"
-					+ info.getSessionVO().getBeamlineName() + "/" + df.format(info.getSessionVO().getStartDate()));
+			form.setFedexCode(info.getSessionVO().getProposalVO().getCode().toUpperCase() + "-"
+					+ info.getSessionVO().getProposalVO().getNumber() + "/" + info.getSessionVO().getBeamlineName()
+					+ "/" + df.format(info.getSessionVO().getStartDate()));
 			BreadCrumbsForm.getIt(request).setSelectedDewar(info);
-			messages.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("message.free", "According to the A-form for this experiment, you are allowed to select " + info.getSessionVO().getNbReimbDewars() + " dewars to be reimbursed by the ESRF"));
+			messages.add(ActionMessages.GLOBAL_MESSAGE,
+					new ActionMessage("message.free",
+							"According to the A-form for this experiment, you are allowed to select "
+									+ info.getSessionVO().getNbReimbDewars() + " dewars to be reimbursed by the ESRF"));
 
 		} catch (Exception e) {
 			errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", e.toString()));
@@ -699,7 +720,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 	}
 
 	public ActionForward setReimbursed(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
-									   HttpServletResponse in_response) {
+			HttpServletResponse in_response) {
 		ActionMessages errors = new ActionMessages();
 		ViewDewarForm form = (ViewDewarForm) actForm;
 
@@ -709,7 +730,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			selectedDewar.setIsReimbursed(form.getInfo().getIsReimbursed());
 			dewar3Service.update(selectedDewar);
 
-			// we erase the selected dewar to retrieve the full search with all dewars belonging to shipment
+			// we erase the selected dewar to retrieve the full search with all dewars
+			// belonging to shipment
 			BreadCrumbsForm.getIt(request).setSelectedDewar(null);
 
 		} catch (Exception e) {
@@ -723,9 +745,8 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 
 	}
 
-
 	private List<Dewar3VO> searchDewars(ActionMapping mapping, String code, String comments, Integer proposalId,
-										String shippingId, String dewarId) throws CreateException, NamingException, FinderException {
+			String shippingId, String dewarId) throws CreateException, NamingException, FinderException {
 
 		Integer idShipping = null;
 		if (shippingId != null) {
@@ -752,7 +773,7 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 		Integer nbReimbursed = 0;
 
 		if (!listInfo.isEmpty()) {
-			for (Iterator<Dewar3VO> iterator = listInfo.iterator(); iterator.hasNext(); ) {
+			for (Iterator<Dewar3VO> iterator = listInfo.iterator(); iterator.hasNext();) {
 				Dewar3VO dewar3vo = (Dewar3VO) iterator.next();
 				if (dewar3vo.getIsReimbursed() != null && dewar3vo.getIsReimbursed().equals(true))
 					currentReimbursed++;
@@ -760,8 +781,10 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 			Dewar3VO defaultSelectedDewar = (Dewar3VO) listInfo.get(0);
 			if (defaultSelectedDewar.getSessionVO() != null) {
 				nbReimbursed = defaultSelectedDewar.getSessionVO().getNbReimbDewars();
-				form.setFedexCode(defaultSelectedDewar.getSessionVO().getProposalVO().getCode().toUpperCase() + "-" + defaultSelectedDewar.getSessionVO().getProposalVO().getNumber() + "/"
-						+ defaultSelectedDewar.getSessionVO().getBeamlineName() + "/" + df.format(defaultSelectedDewar.getSessionVO().getStartDate()));
+				form.setFedexCode(defaultSelectedDewar.getSessionVO().getProposalVO().getCode().toUpperCase() + "-"
+						+ defaultSelectedDewar.getSessionVO().getProposalVO().getNumber() + "/"
+						+ defaultSelectedDewar.getSessionVO().getBeamlineName() + "/"
+						+ df.format(defaultSelectedDewar.getSessionVO().getStartDate()));
 			}
 		}
 
@@ -775,7 +798,6 @@ public class ViewDewarAction extends org.apache.struts.actions.DispatchAction {
 		// Populate with Info
 		form.setListInfo(listInfo);
 	}
-
 
 	/**
 	 * getDateTime

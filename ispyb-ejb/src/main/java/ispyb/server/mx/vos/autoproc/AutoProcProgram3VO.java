@@ -55,6 +55,9 @@ public class AutoProcProgram3VO extends ISPyBValueObject {
 	@Column(name = "autoProcProgramId")
 	protected Integer autoProcProgramId;
 
+	@Column(name = "dataCollectionId")
+	protected Integer dataCollectionId;
+	
 	@Column(name = "processingCommandLine")
 	protected String processingCommandLine;
 
@@ -87,11 +90,12 @@ public class AutoProcProgram3VO extends ISPyBValueObject {
 		super();
 	}
 
-	public AutoProcProgram3VO(Integer autoProcProgramId, String processingCommandLine, String processingPrograms,
+	public AutoProcProgram3VO(Integer autoProcProgramId, Integer dataCollectionId, String processingCommandLine, String processingPrograms,
 			String processingStatus, String processingMessage, Date processingStartTime, Date processingEndTime,
 			String processingEnvironment, Date recordTimeStamp) {
 		super();
 		this.autoProcProgramId = autoProcProgramId;
+		this.dataCollectionId = dataCollectionId;
 		this.processingCommandLine = processingCommandLine;
 		this.processingPrograms = processingPrograms;
 		this.processingStatus = processingStatus;
@@ -121,6 +125,14 @@ public class AutoProcProgram3VO extends ISPyBValueObject {
 	 */
 	public void setAutoProcProgramId(Integer autoProcProgramId) {
 		this.autoProcProgramId = autoProcProgramId;
+	}
+	
+	public Integer getDataCollectionId() {
+		return dataCollectionId;
+	}
+	
+	public void setDataCollectionId(Integer dataCollectionId) {
+		this.dataCollectionId = dataCollectionId;
 	}
 
 	public String getProcessingCommandLine() {
@@ -220,6 +232,7 @@ public class AutoProcProgram3VO extends ISPyBValueObject {
 	
 	public String toWSString(){
 		String s = "autoProcProgramId="+this.autoProcProgramId +", "+
+		"dataCollectionId="+this.dataCollectionId+", "+
 		"processingCommandLine="+this.processingCommandLine+", "+
 		"processingPrograms="+this.processingPrograms+", "+
 		"processingStatus="+this.processingStatus+", "+

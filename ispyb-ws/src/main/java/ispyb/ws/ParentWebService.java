@@ -292,7 +292,9 @@ public  class ParentWebService {
 	 * @throws Exception
 	 */
 	protected int getProposalId(String proposal) throws Exception {
+		log.info("--- Proposals: " + proposal);
 		List<Proposal3VO> proposals = this.getProposal3Service().findProposalByLoginName(proposal);
+		log.info("--- Proposals: " + proposals);
 		if (proposals != null) {
 			if (proposals.size() > 0) {
 				return proposals.get(0).getProposalId();

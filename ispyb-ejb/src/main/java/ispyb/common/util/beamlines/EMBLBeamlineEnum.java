@@ -30,10 +30,10 @@ import java.util.List;
  *
  */
 public enum EMBLBeamlineEnum {
-	P12("P12", "p12", new String[]{"P12"}, "<font style='color:#6888A8;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>312</font></font>", null, true, true),
-	P13("P13", "p13", new String[]{"P13"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>313</font></font>", null, true, true),
-	P14("P14", "p14", new String[]{"P14"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>314</font></font>", null, true, true),
-	PE2("PE2", "pe2", new String[]{"PE2"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>314</font></font>", null, true, true);
+	P12("P12", "P12", new String[]{"P12"}, "<font style='color:#6888A8;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>312</font></font>", null, true, true),
+	P13("P13", "P13", new String[]{"P13"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>313</font></font>", null, true, true),
+	P14("P14", "P14", new String[]{"P14"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>314</font></font>", null, true, true),
+	PE2("PE2", "Pe2", new String[]{"PE2"}, "<font style='color:#000080;font-size:90%'>+49 40 89902<font style='color:#0000FF;font-weight:bold;'>314</font></font>", null, true, true);
 	
 	private EMBLBeamlineEnum(String beamlineName, String directoryName, String[] associatedName, String phoneNumber, String[] correctionFiles, boolean emailNotification, boolean inActivity){
 		this.beamlineName = beamlineName;

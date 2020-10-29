@@ -72,16 +72,18 @@ import ispyb.server.mx.vos.collections.SessionWS3VO;
 public class Session3ServiceBean implements Session3Service, Session3ServiceLocal {
 
 	private final static Logger LOG = Logger.getLogger(Session3ServiceBean.class);
-	
+
 	// Generic HQL request to find instances of Session3 by pk
-	private static final String FIND_BY_PK(boolean fetchDataCollectionGroup, boolean fetchEnergyScan, boolean fetchXFESpectrum) {
+	private static final String FIND_BY_PK(boolean fetchDataCollectionGroup, boolean fetchEnergyScan,
+			boolean fetchXFESpectrum) {
 		return "from Session3VO vo " + (fetchDataCollectionGroup ? "left join fetch vo.dataCollectionGroupVOs " : "")
 				+ (fetchEnergyScan ? "left join fetch vo.energyScanVOs " : "")
 				+ (fetchXFESpectrum ? "left join fetch vo.xfeSpectrumVOs " : "") + "where vo.sessionId = :pk";
 	}
 
 	// Generic HQL request to find all instances of Session3
-	private static final String FIND_ALL(boolean fetchDataCollectionGroup, boolean fetchEnergyScan, boolean fetchXFESpectrum) {
+	private static final String FIND_ALL(boolean fetchDataCollectionGroup, boolean fetchEnergyScan,
+			boolean fetchXFESpectrum) {
 		return "from Session3VO vo " + (fetchDataCollectionGroup ? "left join fetch vo.dataCollectionGroupVOs " : "")
 				+ (fetchEnergyScan ? "left join fetch vo.energyScanVOs " : "")
 				+ (fetchXFESpectrum ? "left join fetch vo.xfeSpectrumVOs " : "");
@@ -96,12 +98,16 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	private final static String HAS_SESSION_DATACOLLECTIONGROUP = "SELECT COUNT(*) FROM DataCollectionGroup WHERE sessionId = :sessionId ";
 
 	private static final String FIND_BY_SHIPPING_ID = "select * from BLSession, ShippingHasSession "
-			+ " where BLSession.sessionId =  ShippingHasSession.sessionId " + " and ShippingHasSession.shippingId = :shippingId ";
+			+ " where BLSession.sessionId =  ShippingHasSession.sessionId "
+			+ " and ShippingHasSession.shippingId = :shippingId ";
 
-	// Be careful, when JBoss starts, the property file is not loaded, and it tries to initialize the class and fails.
-	// private static String FIND_BY_PROPOSAL_CODE_NUMBER = getProposalCodeNumberQuery();
+	// Be careful, when JBoss starts, the property file is not loaded, and it tries
+	// to initialize the class and fails.
+	// private static String FIND_BY_PROPOSAL_CODE_NUMBER =
+	// getProposalCodeNumberQuery();
 
-	// private static String FIND_BY_PROPOSAL_CODE_NUMBER_OLD = getProposalCodeNumberOldQuery();
+	// private static String FIND_BY_PROPOSAL_CODE_NUMBER_OLD =
+	// getProposalCodeNumberOldQuery();
 
 	private final static String UPDATE_PROPOSALID_STATEMENT = " update BLSession  set proposalId = :newProposalId "
 			+ " WHERE proposalId = :oldProposalId"; // 2 old value to be replaced
@@ -109,34 +115,33 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	private static final String FIND_BY_AUTOPROCSCALING_ID = "select s.* from BLSession s, "
 			+ " DataCollectionGroup g, DataCollection c, AutoProcIntegration api, AutoProcScaling_has_Int apshi, AutoProcScaling aps "
 			+ " where s.sessionId = g.sessionId and  " + " g.dataCollectionGroupId = c.dataCollectionGroupId and "
-			+ " c.dataCollectionId = api.dataCollectionId and " + " api.autoProcIntegrationId = apshi.autoProcIntegrationId and "
+			+ " c.dataCollectionId = api.dataCollectionId and "
+			+ " api.autoProcIntegrationId = apshi.autoProcIntegrationId and "
 			+ " apshi.autoProcScalingId = aps.autoProcScalingId and " + " aps.autoProcScalingId = :autoProcScalingId ";
-	
+
 	private static final String FIND_BY_AUTOPROCPROGRAMATTACHMENT_ID = "select s.* from BLSession s, "
 			+ " DataCollectionGroup g, DataCollection c, AutoProcIntegration api, AutoProcProgram autoprocProgram, AutoProcProgramAttachment autoProcProgramAttachment"
 			+ " where s.sessionId = g.sessionId and  g.dataCollectionGroupId = c.dataCollectionGroupId and autoprocProgram.autoProcProgramId = api.autoProcProgramId"
 			+ " and c.dataCollectionId = api.dataCollectionId and autoprocProgram.autoProcProgramId = autoProcProgramAttachment.autoProcProgramId "
 			+ " and autoProcProgramAttachment.autoProcProgramAttachmentId = :autoProcProgramAttachmentId ";
-	
-	
+
 	private static final String FIND_BY_AUTOPROCPROGRAM_ID = "select s.* from BLSession s, "
 			+ " DataCollectionGroup g, DataCollection c, AutoProcIntegration api, AutoProcProgram autoprocProgram "
 			+ " where s.sessionId = g.sessionId and  g.dataCollectionGroupId = c.dataCollectionGroupId and autoprocProgram.autoProcProgramId = api.autoProcProgramId"
 			+ " and c.dataCollectionId = api.dataCollectionId and autoprocProgram.autoProcProgramId = :autoProcProgramId ";
-	
 
 	private static String getProposalCodeNumberQuery() {
 		String query = "select * " + " FROM BLSession ses, Proposal pro "
 				+ "WHERE ses.proposalId = pro.proposalId AND pro.proposalCode like :code AND pro.proposalNumber = :number "
-				+ "AND ses.beamLineName like :beamLineName " + "AND ses.endDate >= " + Constants.MYSQL_ORACLE_CURRENT_DATE + " "
-				+ "AND DATE(ses.startDate) <= DATE(" + Constants.MYSQL_ORACLE_CURRENT_DATE + ")  ORDER BY startDate DESC ";
+				+ "AND ses.beamLineName like :beamLineName " + "AND ses.endDate >= "
+				+ Constants.MYSQL_ORACLE_CURRENT_DATE + " " + "AND DATE(ses.startDate) <= DATE("
+				+ Constants.MYSQL_ORACLE_CURRENT_DATE + ")  ORDER BY startDate DESC ";
 
 		return query;
 	}
 
 	private static String getProposalCodeNumberOldQuery() {
-		String query = "select * "
-				+ " FROM BLSession ses, Proposal pro "
+		String query = "select * " + " FROM BLSession ses, Proposal pro "
 				+ "WHERE ses.proposalId = pro.proposalId AND pro.proposalCode like :code AND pro.proposalNumber = :number "
 				// +
 				// "AND ses.startDate <= " + now + " AND (ses.endDate >= " + now +
@@ -154,16 +159,15 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	private final static String NB_OF_TESTS = "SELECT count(*) FROM DataCollection, DataCollectionGroup "
 			+ " WHERE DataCollection.dataCollectionGroupId = DataCollectionGroup.dataCollectionGroupId"
 			+ " and DataCollection.numberOfImages <=4 and DataCollectionGroup.sessionId  = :sessionId ";
-	
-	private final String[] beamlinesToProtect = { "ID29", "ID23-1", "ID23-2", "ID30A-1", "ID30A-2","ID30A-3", "ID30B", "CM01" };
-	
-	private final String[] account_not_to_protect = { "OPID", "OPD", "MXIHR" };
-	
 
-	
+	private final String[] beamlinesToProtect = { "ID29", "ID23-1", "ID23-2", "ID30A-1", "ID30A-2", "ID30A-3", "ID30B",
+			"CM01" };
+
+	private final String[] account_not_to_protect = { "OPID", "OPD", "MXIHR" };
+
 	@PersistenceContext(unitName = "ispyb_db")
 	private EntityManager entityManager;
-	
+
 	@EJB
 	private AuthorisationServiceLocal autService;
 
@@ -176,8 +180,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	/**
 	 * Create new Session3.
 	 * 
-	 * @param vo
-	 *            the entity to persist.
+	 * @param vo the entity to persist.
 	 * @return the persisted entity.
 	 */
 	public Session3VO create(final Session3VO vo) throws Exception {
@@ -189,8 +192,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	/**
 	 * Update the Session3 data.
 	 * 
-	 * @param vo
-	 *            the entity data to update.
+	 * @param vo the entity data to update.
 	 * @return the updated entity.
 	 */
 	public Session3VO update(final Session3VO vo) throws AccessDeniedException, Exception {
@@ -202,10 +204,9 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	/**
 	 * Remove the Session3 from its pk
 	 * 
-	 * @param vo
-	 *            the entity to remove.
+	 * @param vo the entity to remove.
 	 */
-	public void deleteByPk(final Integer pk) throws AccessDeniedException,Exception {
+	public void deleteByPk(final Integer pk) throws AccessDeniedException, Exception {
 		Session3VO vo = this.findByPk(pk, false, false, false);
 		entityManager.remove(vo);
 
@@ -214,26 +215,27 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	/**
 	 * Remove the Session3
 	 * 
-	 * @param vo
-	 *            the entity to remove.
+	 * @param vo the entity to remove.
 	 */
-	public void delete(final Session3VO vo) throws AccessDeniedException,Exception {
+	public void delete(final Session3VO vo) throws AccessDeniedException, Exception {
 		checkChangeRemoveAccess(vo);
 		entityManager.remove(vo);
 	}
 
 	/**
-	 * Finds a Scientist entity by its primary key and set linked value objects if necessary
+	 * Finds a Scientist entity by its primary key and set linked value objects if
+	 * necessary
 	 * 
-	 * @param pk
-	 *            the primary key
+	 * @param pk        the primary key
 	 * @param withLink1
 	 * @param withLink2
 	 * @return the Session3 value object
 	 */
-	public Session3VO findByPk(Integer pk, boolean fetchDataCollectionGroup, boolean fetchEnergyScan, boolean fetchXFESpectrum) throws AccessDeniedException,Exception {
+	public Session3VO findByPk(Integer pk, boolean fetchDataCollectionGroup, boolean fetchEnergyScan,
+			boolean fetchXFESpectrum) throws AccessDeniedException, Exception {
 		try {
-			Session3VO vo = (Session3VO) entityManager.createQuery(FIND_BY_PK(fetchDataCollectionGroup, fetchEnergyScan, fetchXFESpectrum))
+			Session3VO vo = (Session3VO) entityManager
+					.createQuery(FIND_BY_PK(fetchDataCollectionGroup, fetchEnergyScan, fetchXFESpectrum))
 					.setParameter("pk", pk).getSingleResult();
 			checkChangeRemoveAccess(vo);
 			return vo;
@@ -242,8 +244,8 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		}
 	}
 
-	public SessionWS3VO findForWSByPk(final Integer pk, final boolean withDataCollectionGroup, final boolean withEnergyScan,
-			final boolean withXFESpectrum) throws Exception {
+	public SessionWS3VO findForWSByPk(final Integer pk, final boolean withDataCollectionGroup,
+			final boolean withEnergyScan, final boolean withXFESpectrum) throws Exception {
 		Session3VO found = findByPk(pk, withDataCollectionGroup, withEnergyScan, withXFESpectrum);
 		SessionWS3VO sesLight = getWSSessionVO(found);
 		return sesLight;
@@ -258,21 +260,24 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	@SuppressWarnings("unchecked")
 	public List<Session3VO> findAll(boolean fetchDataCollectionGroup, boolean fetchEnergyScan, boolean fetchXFESpectrum)
 			throws Exception {
-		return entityManager.createQuery(FIND_ALL(fetchDataCollectionGroup, fetchEnergyScan, fetchXFESpectrum)).getResultList();
+		return entityManager.createQuery(FIND_ALL(fetchDataCollectionGroup, fetchEnergyScan, fetchXFESpectrum))
+				.getResultList();
 	}
 
 	public Integer updateUsedSessionsFlag(Integer proposalId) throws Exception {
 
-			int nbUpdated = 0;
-			Query query = entityManager.createNativeQuery(SET_USED_SESSION_STATEMENT).setParameter("proposalId", proposalId);
-			nbUpdated = query.executeUpdate();
+		int nbUpdated = 0;
+		Query query = entityManager.createNativeQuery(SET_USED_SESSION_STATEMENT).setParameter("proposalId",
+				proposalId);
+		nbUpdated = query.executeUpdate();
 
-			return new Integer(nbUpdated);
+		return new Integer(nbUpdated);
 	}
 
 	public Integer hasDataCollectionGroups(Integer sessionId) throws Exception {
 
-		Query query = entityManager.createNativeQuery(HAS_SESSION_DATACOLLECTIONGROUP).setParameter("sessionId", sessionId);
+		Query query = entityManager.createNativeQuery(HAS_SESSION_DATACOLLECTIONGROUP).setParameter("sessionId",
+				sessionId);
 		try {
 			BigInteger res = (BigInteger) query.getSingleResult();
 
@@ -289,14 +294,10 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 
 	@SuppressWarnings("unchecked")
 	@WebMethod
-	public List<Session3VO> findFiltered(Integer proposalId, Integer nbMax, String beamline, Date date1, Date date2, Date dateEnd,
-			boolean usedFlag,  String operatorSiteNumber) {
-
-		return findFiltered(proposalId, nbMax, beamline,  date1, date2,  dateEnd,
-				usedFlag, null,  operatorSiteNumber);
+	public List<Session3VO> findFiltered(Integer proposalId, Integer nbMax, String beamline, Date date1, Date date2,
+			Date dateEnd, boolean usedFlag, String operatorSiteNumber) {
+		return findFiltered(proposalId, nbMax, beamline, date1, date2, dateEnd, usedFlag, null, operatorSiteNumber);
 	}
-	
-
 
 	@SuppressWarnings("unchecked")
 	public List<Session3VO> findByShippingId(Integer shippingId) {
@@ -307,13 +308,14 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Session3VO> findByStartDateAndBeamLineNameAndNbShifts(final Integer proposalId, final Date startDateBegin,
-			final Date startDateEnd, final String beamlineName, final Integer nbShifts) throws Exception {
+	public List<Session3VO> findByStartDateAndBeamLineNameAndNbShifts(final Integer proposalId,
+			final Date startDateBegin, final Date startDateEnd, final String beamlineName, final Integer nbShifts)
+			throws Exception {
 		List<Session3VO> foundEntities = findFiltered(proposalId, null/* nbMax */, beamlineName, startDateBegin,
-						startDateEnd, null/* endDate */, false/* usedFlag */, nbShifts, null);
+				startDateEnd, null/* endDate */, false/* usedFlag */, nbShifts, null);
 		return foundEntities;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Session3VO> findSessionByDateProposalAndBeamline(int proposalId, String beamlineName, Date date) {
 		List<Session3VO> sessions = new ArrayList<Session3VO>();
@@ -321,7 +323,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		sessions.addAll(this.findFiltered(proposalId, null, beamlineName, null, date, date, true, null));
 		return sessions;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Session3VO> findFiltered(Integer nbMax, String beamline, Date date1, Date date2, Date dateEnd,
 			boolean usedFlag, String operatorSiteNumber) {
@@ -343,11 +345,11 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 
 		// usedFlag =1 or endDate > yesterday
 		if (usedFlag)
-			crit.add(Restrictions.sqlRestriction("(usedFlag = 1 OR endDate >= " + Constants.MYSQL_ORACLE_YESTERDAY + " )"));
+			crit.add(Restrictions
+					.sqlRestriction("(usedFlag = 1 OR endDate >= " + Constants.MYSQL_ORACLE_YESTERDAY + " )"));
 
 		if (nbMax != null)
 			crit.setMaxResults(nbMax);
-
 
 		if (operatorSiteNumber != null) {
 			crit.add(Restrictions.eq("operatorSiteNumber", operatorSiteNumber));
@@ -359,7 +361,8 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	}
 
 	/**
-	 * returns the session for a specified proposal with endDate > today and startDate <= today
+	 * returns the session for a specified proposal with endDate > today and
+	 * startDate <= today
 	 * 
 	 * @param code
 	 * @param number
@@ -369,6 +372,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	public List<Session3VO> findSessionByProposalCodeAndNumber(String code, String number, String beamLineName) {
 		String query = null;
 		List<Session3VO> listVOs = null;
+		LOG.debug("find session by propoal code and number " + beamLineName);
 		if (beamLineName == null || beamLineName.equals("")) {
 			query = getProposalCodeNumberOldQuery();
 			listVOs = this.entityManager.createNativeQuery(query, "sessionNativeQuery").setParameter("code", code)
@@ -382,7 +386,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 			return null;
 		return listVOs;
 	}
-	
+
 	/**
 	 * returns the session for a specified proposal with endDate > today or null
 	 * 
@@ -392,11 +396,12 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	 * @return
 	 * @throws Exception
 	 */
-	public SessionWS3VO[] findForWSByProposalCodeAndNumber(final String code, final String number, final String beamLineName)
-			throws Exception {
+	public SessionWS3VO[] findForWSByProposalCodeAndNumber(final String code, final String number,
+			final String beamLineName) throws Exception {
 		List<Session3VO> foundEntities = findSessionByProposalCodeAndNumber(code, number, beamLineName);
 		SessionWS3VO[] ret = getWSSessionVOs(foundEntities);
-		LOG.info("findForWSByProposalCodeAndNumber : code= " + code + ", number= " + number + ", beamlineName= " + beamLineName);
+		LOG.info("findForWSByProposalCodeAndNumber : code= " + code + ", number= " + number + ", beamlineName= "
+				+ beamLineName);
 		return ret;
 	}
 
@@ -422,7 +427,6 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		LOG.info("findForWSToBeProtected : " + listSessionIds);
 		return ret;
 	}
-	
 
 	/**
 	 * returns the list of sessions which have to be protected
@@ -431,14 +435,14 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	 * @throws Exception
 	 */
 	public SessionWS3VO[] findForWSNotProtectedToBeProtected(final Date date1, final Date date2) throws Exception {
-		LOG.info("findForWSNotProtectedToBeProtected");		
+		LOG.info("findForWSNotProtectedToBeProtected");
 		List<Session3VO> foundEntities = findSessionNotProtectedToBeProtected(date1, date2);
 		if (foundEntities == null)
 			return null;
 		SessionWS3VO[] ret = getWSSessionVOs(foundEntities);
 		return ret;
 	}
-	
+
 	/**
 	 * get the number of datcollections which have more then 4 images
 	 * 
@@ -486,7 +490,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * update the proposalId, returns the nb of rows updated
 	 * 
@@ -496,12 +500,12 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	 * @throws Exception
 	 */
 	public Integer updateProposalId(Integer newProposalId, Integer oldProposalId) throws Exception {
-			int nbUpdated = 0;
-			Query query = entityManager.createNativeQuery(UPDATE_PROPOSALID_STATEMENT).setParameter("newProposalId", newProposalId)
-					.setParameter("oldProposalId", oldProposalId);
-			nbUpdated = query.executeUpdate();
+		int nbUpdated = 0;
+		Query query = entityManager.createNativeQuery(UPDATE_PROPOSALID_STATEMENT)
+				.setParameter("newProposalId", newProposalId).setParameter("oldProposalId", oldProposalId);
+		nbUpdated = query.executeUpdate();
 
-			return new Integer(nbUpdated);
+		return new Integer(nbUpdated);
 	}
 
 	/**
@@ -514,19 +518,19 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		Session session = (Session) this.entityManager.getDelegate();
 		Criteria crit = session.createCriteria(Session3VO.class);
 		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // DISTINCT RESULTS !
-		
+
 		if (expSessionPk != null)
 			crit.add(Restrictions.eq("expSessionPk", expSessionPk));
-		
+
 		crit.addOrder(Order.desc("startDate"));
-		
+
 		List<Session3VO> foundEntities = crit.list();
-			if (foundEntities == null || foundEntities.size() == 0) {
-					return null;
-			} else {
-					return foundEntities.get(0);
-			}
-		
+		if (foundEntities == null || foundEntities.size() == 0) {
+			return null;
+		} else {
+			return foundEntities.get(0);
+		}
+
 	}
 
 	/**
@@ -540,40 +544,36 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 	public Session3VO findByAutoProcScalingId(final Integer autoProcScalingId) throws Exception {
 		String query = FIND_BY_AUTOPROCSCALING_ID;
 		List<Session3VO> col = this.entityManager.createNativeQuery(query, "sessionNativeQuery")
-					.setParameter("autoProcScalingId", autoProcScalingId).getResultList();
+				.setParameter("autoProcScalingId", autoProcScalingId).getResultList();
 		if (col != null && col.size() > 0) {
-				return col.get(0);
+			return col.get(0);
 		}
 		return null;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public Session3VO findByAutoProcProgramAttachmentId(final Integer autoProcProgramAttachmentId) throws Exception {
 		String query = FIND_BY_AUTOPROCPROGRAMATTACHMENT_ID;
 		List<Session3VO> col = this.entityManager.createNativeQuery(query, "sessionNativeQuery")
-					.setParameter("autoProcProgramAttachmentId", autoProcProgramAttachmentId).getResultList();
+				.setParameter("autoProcProgramAttachmentId", autoProcProgramAttachmentId).getResultList();
 		if (col != null && col.size() > 0) {
-				return col.get(0);
+			return col.get(0);
 		}
 		return null;
 	}
-	
-	
+
 	@Override
 	public Session3VO findByAutoProcProgramId(int autoProcProgramId) {
 		String query = FIND_BY_AUTOPROCPROGRAM_ID;
 		@SuppressWarnings("unchecked")
 		List<Session3VO> col = this.entityManager.createNativeQuery(query, "sessionNativeQuery")
-					.setParameter("autoProcProgramId", autoProcProgramId).getResultList();
+				.setParameter("autoProcProgramId", autoProcProgramId).getResultList();
 		if (col != null && col.size() > 0) {
-				return col.get(0);
+			return col.get(0);
 		}
 		return null;
 	}
-	
 
-	
 	/**
 	 * launch the data confidentiality for the specified session
 	 */
@@ -617,19 +617,21 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 						if (folderDate != null)
 							directory = dt.format(folderDate);
 						// call data protection tool
-						//TODO put back when runtime error found
+						// TODO put back when runtime error found
 						HttpClient client = new DefaultHttpClient();
 						List<NameValuePair> qparams = new ArrayList<NameValuePair>();
 						qparams.add(new BasicNameValuePair("user", proposalAccount));
 						qparams.add(new BasicNameValuePair("bl", beamline));
 						qparams.add(new BasicNameValuePair("dir", directory));
 						qparams.add(new BasicNameValuePair("mx", isMx));
-						LOG.debug("post user = " + proposalAccount + ", beamline = " + beamline + ", directory = " + directory);
+						LOG.debug("post user = " + proposalAccount + ", beamline = " + beamline + ", directory = "
+								+ directory);
 						URI uri = URIUtils.createURI("http", "dch.esrf.fr", -1, "/protect.php",
 								URLEncodedUtils.format(qparams, "UTF-8"), null);
 						HttpPost post = new HttpPost(uri);
 						HttpResponse response = client.execute(post);
-						BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+						BufferedReader rd = new BufferedReader(
+								new InputStreamReader(response.getEntity().getContent()));
 						String line = "";
 						String protectedData = "";
 						while ((line = rd.readLine()) != null) {
@@ -642,12 +644,12 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 							protectedData = protectedData.substring(0, 1024);
 						sessionVO.setProtectedData(protectedData);
 						this.update(sessionVO);
-						
+
 						LOG.info("end of session protection");
-						
+
 						if (client != null && client.getConnectionManager() != null)
-					        client.getConnectionManager().closeExpiredConnections();
-						
+							client.getConnectionManager().closeExpiredConnections();
+
 					} catch (IOException e) {
 						//
 						LOG.error("WS ERROR IOException: getDataToBeProtected " + sessionVO.getSessionId());
@@ -656,7 +658,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 						//
 						LOG.error("WS ERROR: getDataToBeProtected " + sessionVO.getSessionId());
 						e.printStackTrace();
-					} 
+					}
 
 				} else {
 					LOG.info("session not protected because too recent");
@@ -664,9 +666,9 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 			}
 		}
 	}
-	
-	
-	//******************************     PRIVATE METHODS  ********************************************************
+
+	// ****************************** PRIVATE METHODS
+	// ********************************************************
 
 	private List<Session3VO> findSessionToBeProtected(Integer delay, Integer window) {
 		Session session = (Session) this.entityManager.getDelegate();
@@ -704,7 +706,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 
 		return crit.list();
 	}
-	
+
 	private List<Session3VO> findSessionNotProtectedToBeProtected(Date date1, Date date2) {
 		Session session = (Session) this.entityManager.getDelegate();
 		Criteria crit = session.createCriteria(Session3VO.class);
@@ -717,7 +719,8 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		Integer windowForTrigger = 14 * 24;
 
 		cal.add(Calendar.HOUR_OF_DAY, -delayToTrigger);
-		// launch the protection of sessions which have not been protected during the last 14 days.
+		// launch the protection of sessions which have not been protected during the
+		// last 14 days.
 		if (date2 == null)
 			date2 = cal.getTime();
 
@@ -756,7 +759,7 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 
 		return listNotProtected;
 	}
-	
+
 	/**
 	 * Get all lights entities
 	 * 
@@ -807,17 +810,17 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		wsSession.setProposalName(proposalName);
 		return wsSession;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@WebMethod
-	private List<Session3VO> findFiltered(Integer proposalId, Integer nbMax, String beamline, Date date1, Date date2, Date dateEnd,
-			boolean usedFlag, Integer nbShifts, String operatorSiteNumber) {
+	private List<Session3VO> findFiltered(Integer proposalId, Integer nbMax, String beamline, Date date1, Date date2,
+			Date dateEnd, boolean usedFlag, Integer nbShifts, String operatorSiteNumber) {
 
 		Session session = (Session) this.entityManager.getDelegate();
 		Criteria crit = session.createCriteria(Session3VO.class);
 
 		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // DISTINCT RESULTS !
-
+		LOG.debug("Par... " + date2);
 		if (proposalId != null) {
 			Criteria subCrit = crit.createCriteria("proposalVO");
 			subCrit.add(Restrictions.eq("proposalId", proposalId));
@@ -834,9 +837,10 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 			crit.add(Restrictions.ge("endDate", dateEnd));
 
 		// usedFlag =1 or endDate >= yesterday
-		
+
 		if (usedFlag) {
-			crit.add(Restrictions.sqlRestriction("(usedFlag = 1 OR endDate >= " + Constants.MYSQL_ORACLE_CURRENT_DATE + " )"));
+			crit.add(Restrictions
+					.sqlRestriction("(usedFlag = 1 OR endDate >= " + Constants.MYSQL_ORACLE_CURRENT_DATE + " )"));
 		}
 
 		if (nbMax != null)
@@ -854,22 +858,17 @@ public class Session3ServiceBean implements Session3Service, Session3ServiceLoca
 		List<Session3VO> ret = crit.list();
 		return ret;
 	}
-	
+
 	/**
-	 * Check if user has access rights to change and remove Session3 entities. If not set rollback only and throw
-	 * AccessDeniedException
+	 * Check if user has access rights to change and remove Session3 entities. If
+	 * not set rollback only and throw AccessDeniedException
 	 * 
 	 * @throws AccessDeniedException
 	 */
 	private void checkChangeRemoveAccess(Session3VO vo) throws AccessDeniedException {
-		if (vo == null) return;
-		autService.checkUserRightToAccessSession(vo);				
+		if (vo == null)
+			return;
+		autService.checkUserRightToAccessSession(vo);
 	}
-
-
-
-
-
-
 
 }

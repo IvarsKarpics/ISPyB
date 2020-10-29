@@ -339,13 +339,20 @@
 			</property>
 		</activation>
   		<properties>
+                        <ispyb.site>EMBL</ispyb.site>
                         <ispyb.dbDialect>MYSQL</ispyb.dbDialect>
                         <ispyb.dbJndiName.direct>java:jboss/ispyb_db_direct</ispyb.dbJndiName.direct>
                         <ispyb.authentication.method>LDAP</ispyb.authentication.method>
                         <ispyb.authorisation.proposals.source>database</ispyb.authorisation.proposals.source>
-                        <ldap.employee.resource>ldaps://services:636</ldap.employee.resource>
-                        <ldap.attribute>uid</ldap.attribute>
-                        <ispyb.root.folder>/data/ispyb/</ispyb.root.folder>
+                                               
+						<!--ldaps://services:636 -->
+						<ldap.employee.resource>ldaps://services.embl-hamburg.de:636</ldap.employee.resource>
+						<ldap.base>,ou=internal,ou=people,dc=embl-hamburg,dc=de</ldap.base>
+  						<ldap.people>,ou=internal,ou=people,dc=embl-hamburg,dc=de</ldap.people>
+  						<ldap.principalDNPrefix>ui=</ldap.principalDNPrefix>
+						<ldap.attribute>uid</ldap.attribute>
+                    
+					    <ispyb.root.folder>/data/ispyb/</ispyb.root.folder>
                         <ispyb.uploaded.root.folder>/data/ispyb/pyapdb/</ispyb.uploaded.root.folder>
                         <ispyb.upload.folder.pdf>/data/pyarch/pdb/pdf/</ispyb.upload.folder.pdf>
                         <ispyb.upload.folder.xds>/data/ispyb/</ispyb.upload.folder.xds>
@@ -355,13 +362,13 @@
                         <ispyb.dataprocessing.denzo>false</ispyb.dataprocessing.denzo>
                         <ispyb.reprocessing.script>/opt/startProcessingP13.csh</ispyb.reprocessing.script>
                         <ispyb.path.mappingstyle>EMBL</ispyb.path.mappingstyle>
-                        <ispyb.bcm>mxcube</ispyb.bcm>
+                        <ispyb.bcm>MXCuBE</ispyb.bcm>
                         <ispyb.news.url>http://www.esrf.fr/UsersAndScience/Experiments/MX/How_to_use_our_beamlines/ISPYB/ISPYBnews/</ispyb.news.url>
 
                         <protein.allowedToCreate>true</protein.allowedToCreate>
-                        <shipping.container.capacity>17</shipping.container.capacity>
-                        <samplechanger.container.capacity>17</samplechanger.container.capacity>
-                        <samplechanger.locations>17</samplechanger.locations>
+                        <shipping.container.capacity>10</shipping.container.capacity>
+                        <samplechanger.container.capacity>10</samplechanger.container.capacity>
+						<samplechanger.locations>17</samplechanger.locations>
 
                         <mail.smtp.host>160.103.2.175</mail.smtp.host>
                         <mail.admin>ispyb@embl-hamburg.de</mail.admin>
@@ -372,23 +379,22 @@
                         <mail.report.industry.from>ispyb@embl-hamburg.de</mail.report.industry.from>
                         <mail.report.industry.cc>ispyb@embl-hamburg.de</mail.report.industry.cc>
                         <mail.report.industry.cc.fx12>ispyb@embl-hamburg.de</mail.report.industry.cc.fx12>
-                        <mail.report.industry.bcc></mail.report.industry.bcc>
                         <dictionary.site>The EMBL</dictionary.site>
                         <dictionary.bcm>mxCuBE</dictionary.bcm>
 
-                        <smis.ws.usr></smis.ws.usr>
-                        <smis.ws.pwd></smis.ws.pwd>
-
+                        <smis.ws.usr>mx0000</smis.ws.usr>
+                        <smis.ws.pwd>test</smis.ws.pwd>
+  
                         <userportal.webservices.url>http://smis.embl-hamburg.de:8080/SMISServer-ejb3/SMISWebService/SMISWebServiceBean?wsdl</userportal.webservices.url>
                         <ispyb.authorisation.active>false</ispyb.authorisation.active>
-
+                        
                         <ispyb.userportal.link>SMIS</ispyb.userportal.link>
                         <ispyb.upload.folder.json>/data/pyarch/pdb/json/</ispyb.upload.folder.json>
                         <ispyb.shipping.reimburseddewars>true</ispyb.shipping.reimburseddewars>
-                        <shipment.upload.template>ispyb-template6.2_shipment.xlt</shipment.upload.template>
-                        <shipment.upload.populatedTemplate>ispyb-template6.2_shipment.xls</shipment.upload.populatedTemplate>
-                        <dewar.label.template>ParcelLabelsTemplate_EMBL.pdf</dewar.label.template>
-		</properties>
+						<shipment.upload.template>ispyb-template6.2_shipment.xlt</shipment.upload.template>
+						<shipment.upload.populatedTemplate>ispyb-template6.2_shipment.xls</shipment.upload.populatedTemplate>
+                        <dewar.label.template>ParcelLabelsTemplate_EMBL_new_break.pdf</dewar.label.template>
+                </properties>
   	</profile>
   	<profile>
   		<id>ispyb.site-SOLEIL</id>

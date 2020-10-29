@@ -632,15 +632,10 @@
 		 
 	</definition>
 	<definition name="user.shipping.dewar.view.page" extends="site.main.layout" >
-		<put name="title" value="Reimburse Dewar information" />
+		<put name="title" value="View Dewar information" />
 		<put name="body" value="/tiles/bodies/common/shipping/viewDewar.jsp" />
 		 
 	</definition>
-		<definition name="user.shipping.dewar.reimburse.page" extends="site.main.layout" >
-		<put name="title" value="View Dewar information" />
-		<put name="body" value="/tiles/bodies/common/shipping/reimburseDewar.jsp" />		 
-	</definition>
-	
 	<definition name="user.shipping.dewar.labels.page" extends="site.main.layout" >
 		<put name="title" value="View Dewar labels" />
 		<put name="body" value="/tiles/bodies/common/shipping/viewDewarLabels.jsp" />
@@ -1254,11 +1249,7 @@
 		<put name="body" value="/tiles/bodies/biosaxs/uploadPdbFileSAXS.jsp" />
 	</definition>
 	
-    <definition name="user.sample.viewUploadXDSInputFile.page" extends="site.main.empty" >
-		<put name="title" value="XDS Input File Upload" />
-		<put name="body" value="/tiles/bodies/mx/sample/uploadXDSInputFile.jsp" />
-	</definition>
-	
+    
 	<!-- =======================================================  -->
 	<!--   Results pages                                          -->
 	<!-- =======================================================  -->

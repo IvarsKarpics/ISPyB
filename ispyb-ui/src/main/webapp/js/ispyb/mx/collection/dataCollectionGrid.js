@@ -50,8 +50,8 @@ function DataCollectionGrid(args) {
 	this.minDCId = 1;
 	this.maxDCId = 0;
 	
-	this.rMergeCutoff = 10;
-	this.iSigmaCutoff = 1;
+	this.rMergeCutoff = 0;
+	this.iSigmaCutoff = 100;
 	
 	// dataCollection data model
 	Ext.define('DataCollectionModel', {
@@ -79,8 +79,8 @@ function DataCollectionGrid(args) {
 					name : 'proposal',
 					mapping : 'proposal'
 				}, {
-					name : 'login',
-					mapping : 'login'		
+					name : 'imageDirectory',
+					mapping : 'imageDirectory'		
 				}, {
 					name : 'imagePrefix',
 					mapping : 'imagePrefix'
@@ -596,7 +596,7 @@ DataCollectionGrid.prototype._getColumns = function () {
 		// run status
 		if (record.data.runStatus) {
 			mess2 = record.data.runStatus;
-			if (record.data.runStatus.search("successful") != -1) {
+			if (record.data.runStatus.search("uccessful") != -1) {
 				icon2 = "../images/Sphere_Green_12.png";
 			} else if (record.data.runStatus.search("failed") != -1) {
 				icon2 = "../images/Sphere_Red_12.png";
@@ -859,9 +859,9 @@ DataCollectionGrid.prototype._getColumns = function () {
 	var columns = [];
 	if (this.displayLastCollect) {
 		columns.push({
-				text : 'Beamline<br/>Name',
+				text : 'Beamline',
 				dataIndex : 'beamLineName',
-				flex : 0.08,
+				flex : 0.05,
 				id : 'beamLineName'
 			});
 	}
@@ -869,16 +869,16 @@ DataCollectionGrid.prototype._getColumns = function () {
 		columns.push({
 				text : 'Proposal',
 				dataIndex : 'proposal',
-				flex : 0.1,
+				flex : 0.05,
 				id : 'proposal'
 			});
 	}
     if (this.isManager) {
         columns.push({
-                        text : 'User',
-                        dataIndex : 'login',
-                        flex : 0.1,
-                        id : 'login'
+                        text : 'Directory',
+                        dataIndex : 'imageDirectory',
+                        flex : 0.15,
+                        id : 'imageDirectory'
                 });
     }
     

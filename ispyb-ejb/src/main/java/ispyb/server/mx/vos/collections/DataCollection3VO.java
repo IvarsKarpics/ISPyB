@@ -79,7 +79,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 	@ManyToOne
 	@JoinColumn(name = "blSubSampleId")
 	private BLSubSample3VO blSubSampleVO;
-
+	
 	@Column(name = "dataCollectionNumber")
 	protected Integer dataCollectionNumber;
 
@@ -247,8 +247,9 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 	
 	@Column(name = "voltage")
 	protected Float voltage;
-	
-	
+		
+	@Column(name = "sessionId")
+	protected Integer sessionId;
 	
 	@OneToMany
 	@JoinColumn(name = "dataCollectionId")
@@ -280,7 +281,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 			Double undulatorGap1, Double undulatorGap2, Double undulatorGap3, Double beamSizeAtSampleX,
 			Double beamSizeAtSampleY, String centeringMethod, Double averageTemperature,
 			String actualCenteringPosition, String beamShape, Double flux, Double flux_end, Double totalAbsorbedDose,
-			String bestWilsonPlotPath) {
+			String bestWilsonPlotPath, Integer sessionId) {
 		super();
 		this.dataCollectionId = dataCollectionId;
 		this.dataCollectionGroupVO = dataCollectionGroupVO;
@@ -339,6 +340,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 		this.flux_end = flux_end;
 		this.totalAbsorbedDose = totalAbsorbedDose;
 		this.bestWilsonPlotPath = bestWilsonPlotPath;
+		this.sessionId = sessionId;
 	}
 
 	public DataCollection3VO(DataCollection3VO vo) {
@@ -400,6 +402,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 		this.flux_end = vo.getFlux_end();
 		this.totalAbsorbedDose = vo.getTotalAbsorbedDose();
 		this.bestWilsonPlotPath = vo.getBestWilsonPlotPath();
+		this.sessionId = vo.getSessionId();
 	}
 
 	public void fillVOFromWS(DataCollectionWS3VO vo) {
@@ -456,6 +459,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 		this.flux_end = vo.getFlux_end();
 		this.totalAbsorbedDose = vo.getTotalAbsorbedDose();
 		this.bestWilsonPlotPath = vo.getBestWilsonPlotPath();
+		this.sessionId = vo.getSessionId();
 	}
 
 	@Override
@@ -527,6 +531,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 		return blSubSampleVO == null ? null : blSubSampleVO.getBlSubSampleId();
 	}
 
+	
 	public Integer getDataCollectionNumber() {
 		return dataCollectionNumber;
 	}
@@ -938,6 +943,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 	public String getBestWilsonPlotPath() {
 		return bestWilsonPlotPath;
 	}
+	
 
 	public void setBestWilsonPlotPath(String bestWilsonPlotPath) {
 		this.bestWilsonPlotPath = bestWilsonPlotPath;
@@ -949,6 +955,14 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 
 	public void setImageVOs(Set<Image3VO> imageVOs) {
 		this.imageVOs = imageVOs;
+	}
+	
+	public Integer getSessionId() {
+		return sessionId;
+	}
+	
+	public void setSessionId(Integer sessionId) {
+		this.sessionId = sessionId;
 	}
 
 //	public Set<Screening3VO> getScreeningVOs() {
@@ -1119,7 +1133,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 				+ ", " + "actualCenteringPosition=" + this.actualCenteringPosition + ", " + "beamShape="
 				+ this.beamShape + ", " + "flux=" + this.flux + ", " + "flux_end=" + this.flux_end + ", "
 				+ "totalAbsorbedDose=" + this.totalAbsorbedDose + ", " + "bestWilsonPlotPath="
-				+ this.bestWilsonPlotPath;
+				+ this.bestWilsonPlotPath + ", " + "sessionId=" + this.sessionId;
 
 		return s;
 	}
@@ -1178,6 +1192,7 @@ public class DataCollection3VO extends ISPyBValueObject implements Cloneable {
 		this.magnification = magnification;
 	}
 
+	
 	public Float getVoltage() {
 		return voltage;
 	}

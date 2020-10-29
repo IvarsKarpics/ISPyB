@@ -98,6 +98,10 @@
       type="ispyb.client.mx.collection.ViewSessionSummaryForm"
     />
     <form-bean
+      name="mxcubeLogForm"
+      type="ispyb.client.common.admin.ViewMxcubeLogForm"
+    />
+    <form-bean
       name="autoProcRankingForm"
       type="ispyb.client.mx.ranking.autoProcRanking.AutoProcRankingForm"
     />
@@ -2021,6 +2025,37 @@
       <forward
         name="error"
         path="site.default.error.page"
+        redirect="false"
+      />
+    </action>
+    <action
+      path="/user/mxcubeLogAction"
+      type="ispyb.client.common.admin.ViewMxcubeLogAction"
+      name="mxcubeLogForm"
+      scope="request"
+      input="manager.admin.mxcubeLog.page"
+      parameter="reqCode"
+      unknown="false"
+      validate="false"
+    >
+      <forward
+        name="error"
+        path="site.default.error.page"
+        redirect="false"
+      />
+      <forward
+        name="mxcubeLogActionManager"
+        path="manager.admin.mxcubeLog.page"
+        redirect="false"
+      />
+      <forward
+        name="mxcubeLogActionLocalContact"
+        path="localcontact.admin.mxcubeLog.page"
+        redirect="false"
+      />
+      <forward
+        name="mxcubeLogActionBlom"
+        path="blom.admin.mxcubeLog.page"
         redirect="false"
       />
     </action>

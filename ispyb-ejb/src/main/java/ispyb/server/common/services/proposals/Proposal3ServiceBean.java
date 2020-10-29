@@ -256,9 +256,9 @@ public class Proposal3ServiceBean implements Proposal3Service, Proposal3ServiceL
 			if (persons.size() > 0) {
 				for (Person3VO person3vo : persons) {
 					if (person3vo.getProposalVOs() != null) {
-						if (person3vo.getProposalVOs().size() > 0) {
-							proposals.addAll(person3vo.getProposalVOs());
-						}
+						//if (person3vo.getProposalVOs().size() > 0) {
+						//	proposals.addAll(person3vo.getProposalVOs());
+						//}
 						if (person3vo.getProposalDirectVOs().size() > 0) {
 							proposals.addAll(person3vo.getProposalDirectVOs());
 						}
@@ -414,10 +414,11 @@ public class Proposal3ServiceBean implements Proposal3Service, Proposal3ServiceL
 		 * In case login name is a user we look for it on Persons though proposalHasPerson
 		 */
 		proposals.addAll(this.findProposalByPerson(loginName));
-
+		
 		/**
 		 * Removing duplicated proposals
 		 */
+		
 		List<Proposal3VO> result = new ArrayList<Proposal3VO>();
 		HashSet<Integer> proposalsId = new HashSet<Integer>();
 		for (Proposal3VO proposal : proposals) {
@@ -425,7 +426,8 @@ public class Proposal3ServiceBean implements Proposal3Service, Proposal3ServiceL
 				result.add(proposal);
 				proposalsId.add(proposal.getProposalId());
 			}
-		}		
+		}
+		
 		return result;
 	}
 
@@ -454,14 +456,14 @@ public class Proposal3ServiceBean implements Proposal3Service, Proposal3ServiceL
 		if (persons != null) {
 			if (persons.size() > 0) {
 				for (Person3VO person3vo : persons) {
-					if (person3vo.getProposalVOs() != null) {
-						if (person3vo.getProposalVOs().size() > 0) {
-							proposals.addAll(person3vo.getProposalVOs());
-						}
-						if (person3vo.getProposalDirectVOs().size() > 0) {
-							proposals.addAll(person3vo.getProposalDirectVOs());
-						}
+					//if (person3vo.getProposalVOs() != null) {
+					//	if (person3vo.getProposalVOs().size() > 0) {
+					//		proposals.addAll(person3vo.getProposalVOs());
+					//	}
+					if (person3vo.getProposalDirectVOs().size() > 0) {
+						proposals.addAll(person3vo.getProposalDirectVOs());
 					}
+					//}
 				}
 			}
 		}
@@ -502,6 +504,7 @@ public class Proposal3ServiceBean implements Proposal3Service, Proposal3ServiceL
 	@Override
 	public List<Map<String, Object>> findProposals(String loginName) {
 		List<Proposal3VO> proposals = this.findProposalByLoginName(loginName);
+		
 		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 		for (Proposal3VO proposal : proposals) {
 			result.addAll(findProposalByProposalId(proposal.getProposalId()));

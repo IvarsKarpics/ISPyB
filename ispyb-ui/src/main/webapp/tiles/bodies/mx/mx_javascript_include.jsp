@@ -85,6 +85,11 @@ Contributors : S. Delageniere, R. Leal, L. Launer, K. Levik, S. Veyrier, P. Bren
 	<script type="text/javascript" src="<%=jsWebserverURLAdmin%>viewLogOptionPanel.js"></script>
 	<script type="text/javascript" src="<%=jsWebserverURLAdmin%>launchDataConfidentialityPanel.js"></script>
 	
+	<script type="text/javascript" src="<%=jsWebserverURLAdmin%>mainMxcubeLog.js"></script>
+	<script type="text/javascript" src="<%=jsWebserverURLAdmin%>mxcubeLogPanel.js"></script>
+
+	
+	
 	<script src="<%=jsWebserverURLCollection%>mainCollectionGroup.js"></script>
 	<script src="<%=jsWebserverURLCollection%>collectionGroup.js"></script>
 	<script src="<%=jsWebserverURLCollection%>dataCollectionGroupGrid.js"></script>

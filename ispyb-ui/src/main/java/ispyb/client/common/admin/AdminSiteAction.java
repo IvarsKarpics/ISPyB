@@ -239,7 +239,7 @@ public class AdminSiteAction extends DispatchAction {
 	 */
 	public ActionForward displayOnlineUsers(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
 			HttpServletResponse response) {
-		LOG.debug("Admin users");
+		LOG.debug("Online users");
 
 		ActionMessages errors = new ActionMessages();
 
@@ -311,6 +311,81 @@ public class AdminSiteAction extends DispatchAction {
 		return mapping.findForward("successUser");
 	}
 
+	
+	public ActionForward displayMxcubeLog(ActionMapping mapping, ActionForm actForm, HttpServletRequest request,
+			HttpServletResponse response) {
+		LOG.debug("Admin users");
+
+		ActionMessages errors = new ActionMessages();
+
+		try {
+			AdminSiteForm form = (AdminSiteForm) actForm;
+
+			// Retrieve LOGON users from DB
+			List<AdminActivity3VO> userListDb1 = adminActivityService.findByAction(Constants.STATUS_LOGON);
+
+			// Select online users
+			long lastAccessTime1 = System.currentTimeMillis() - Constants.USER_ONLINE_MIN * 60 * 1000;
+			List<AdminActivity3VO> userList1 = new ArrayList<AdminActivity3VO>();
+			for (int i = 0; i < userListDb1.size(); i++) {
+				AdminActivity3VO user = userListDb1.get(i);
+				Date dateTime = user.getDateTime();
+				long accessTime = dateTime.getTime();
+				if (accessTime > lastAccessTime1) {
+					userList1.add(user);
+				}
+			}
+			// Populate with Info
+			form.setListInfo1(userList1);
+
+			// Retrieve users from DB
+			List<AdminActivity3VO> userListDb2 = adminActivityService.findAll();
+
+			// Select logons of the day
+			Date now = new Date();
+			Calendar cal = new GregorianCalendar();
+			cal.setTime(now);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			long lastAccessTime2 = cal.getTimeInMillis();
+			// System.out.println("Time: "+lastAccessTime2+" : "+new
+			// Date(lastAccessTime2)+"/"+System.currentTimeMillis());
+			ArrayList<AdminActivity3VO> userList2 = new ArrayList<AdminActivity3VO>();
+			for (int i = 0; i < userListDb2.size(); i++) {
+				AdminActivity3VO user = userListDb2.get(i);
+				Date dateTime = user.getDateTime();
+				long accessTime = dateTime.getTime();
+				if (accessTime > lastAccessTime2) {
+					userList2.add(user);
+				}
+			}
+			// Populate with Info
+			form.setListInfo2(userList2);
+
+			FormUtils.setFormDisplayMode(request, actForm, FormUtils.INSPECT_MODE);
+
+		} catch (Exception e) {
+			errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("errors.detail", e.toString()));
+			e.printStackTrace();
+		}
+
+		if (!errors.isEmpty()) {
+			saveErrors(request, errors);
+			return (mapping.findForward("error"));
+		}
+
+		RoleDO roleObject = (RoleDO) request.getSession().getAttribute(Constants.CURRENT_ROLE);
+		String role = roleObject.getName();
+		if (role.equals(Constants.ROLE_MANAGER)) {
+			return mapping.findForward("successUser");
+		} else if (role.equals(Constants.ROLE_BLOM)) {
+			return mapping.findForward("successUserBlom");
+		}
+		return mapping.findForward("successUser");
+	}
+	
 	/**
 	 * Display a chart based on menu action Example: /manager/adminSite.do ?reqCode=displayChart &chartView=v_logonByWeek //name of the
 	 * view in the database that gives the chart data &chartType=bar // column, bar, area, line, stacked column, stacked area, pie,...

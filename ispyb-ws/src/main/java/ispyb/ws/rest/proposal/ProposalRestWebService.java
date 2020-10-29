@@ -69,9 +69,10 @@ public class ProposalRestWebService extends MXRestWebService{
 		try {
 			ArrayList<HashMap<String, List<?>>> multiple = new ArrayList<HashMap<String, List<?>>>();				
 			HashMap<String, List<?>> results = new HashMap<String, List<?>>();
-			
+			logger.info("-- getProposaInfo" + proposal);
 			if (proposal == null || proposal.isEmpty()) {					
 				List<Map<String, Object>> proposals = this.getProposalsFromToken(token);
+				logger.info("2 proposals" + proposals);
 				results.put("proposal", proposals);
 				
 			} else {

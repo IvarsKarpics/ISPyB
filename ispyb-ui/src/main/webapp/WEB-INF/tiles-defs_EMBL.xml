@@ -334,12 +334,29 @@
 		<put name="title" value="Prepare your experiment" />
 		<put name="body" value="/tiles/bodies/common/help/prepareHelp.jsp" />
 	</definition>
-	
+
+
 	<!-- mxCube -->
-	<definition name="guest.help.mxcube.page" extends="site.main.layout" >
-		<put name="title" value="Prepare your experiment" />
-		<put name="body" value="/tiles/bodies/common/help/mxcubeHelp.jsp" />
+        <definition name="guest.help.mxcube.page" extends="site.main.layout" >
+                <put name="title" value="Prepare your experiment" />
+                <put name="body" value="/tiles/bodies/common/help/mxcubeHelp.jsp" />
+        </definition>        	
+	
+	<definition name="manager.admin.mxcubeLog.page" extends="site.manager.layout" >
+		<put name="title" value="MXCuBE Log" />
+		<put name="body" value="/tiles/bodies/common/admin/viewMxcubeLog.jsp" />
 	</definition>
+	
+	<definition name="localcontact.admin.mxcubeLog.page" extends="site.localcontact.layout" >
+		<put name="title" value="MXCuBE Log" />
+		<put name="body" value="/tiles/bodies/common/admin/viewDataConfidentialityLog.jsp" />
+	</definition>
+	
+	<definition name="blom.admin.mxcubeLog.page" extends="site.blom.layout" >
+		<put name="title" value="MXCuBE Log" />
+		<put name="body" value="/tiles/bodies/common/admin/viewMxcubeLog.jsp" />
+	</definition>
+	
 	
 	<!-- Upload -->
 	<definition name="guest.help.upload.page" extends="site.main.layout" >

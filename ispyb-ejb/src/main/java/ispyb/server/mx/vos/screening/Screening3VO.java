@@ -66,6 +66,9 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 	@JoinColumn(name = "dataCollectionGroupId")
 	protected DataCollectionGroup3VO dataCollectionGroupVO;
 	
+	@Column(name = "dataCollectionId")
+	protected Integer dataCollectionId;
+	
 	@ManyToOne
 	@JoinColumn(name = "diffractionPlanId")
 	private DiffractionPlan3VO diffractionPlanVO;
@@ -102,13 +105,14 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 
 	
 	public Screening3VO(Integer screeningId,
-			DataCollectionGroup3VO dataCollectionGroupVO,
+			DataCollectionGroup3VO dataCollectionGroupVO, Integer dataCollectionId,
 			DiffractionPlan3VO diffractionPlanVO, Date timeStamp,
 			String programVersion, String comments, String shortComments,
 			String xmlSampleInformation) {
 		super();
 		this.screeningId = screeningId;
 		this.dataCollectionGroupVO = dataCollectionGroupVO;
+		this.dataCollectionId = dataCollectionId;
 		this.diffractionPlanVO = diffractionPlanVO;
 		this.timeStamp = timeStamp;
 		this.programVersion = programVersion;
@@ -122,6 +126,7 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 		super();
 		this.screeningId = vo.getScreeningId();
 		this.dataCollectionGroupVO = vo.getDataCollectionGroupVO();
+		this.dataCollectionId = vo.getDataCollectionId();
 		this.diffractionPlanVO = vo.getDiffractionPlanVO();
 		this.timeStamp = vo.getTimeStamp();
 		this.programVersion = vo.getProgramVersion();
@@ -133,6 +138,7 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 	public void fillVOFromWS(ScreeningWS3VO vo) {
 		this.screeningId = vo.getScreeningId();
 		this.dataCollectionGroupVO = null;
+		this.dataCollectionId = vo.getDataCollectionId();
 		this.diffractionPlanVO =null;
 		this.timeStamp = vo.getTimeStamp();
 		this.programVersion = vo.getProgramVersion();
@@ -171,6 +177,19 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 	public void setDataCollectionGroupVO(DataCollectionGroup3VO dataCollectionGroupVO) {
 		this.dataCollectionGroupVO = dataCollectionGroupVO;
 	}
+	
+	
+	
+	
+	public Integer getDataCollectionId() {
+		return dataCollectionId;
+	}
+
+
+	public void setDataCollectionId(Integer dataCollectionId) {
+		this.dataCollectionId = dataCollectionId;
+	}
+	
 
 
 	public Integer getDataCollectionGroupVOId() {
@@ -282,7 +301,8 @@ public class Screening3VO extends ISPyBValueObject implements Cloneable {
 	}
 	
 	public String toWSString(){
-		String s = "screeningId="+this.screeningId +", "+
+		String s = "screeningId="+this.screeningId +", "+ 
+	    "dataCpllectionId= " + this.dataCollectionId + ", " +
 		"timeStamp="+this.timeStamp+", "+
 		"programVersion="+this.programVersion+", "+
 		"comments="+this.comments+", "+

@@ -166,9 +166,12 @@ public class LogonAction extends Action {
 				site = Constants.SITE_SOLEIL;
 			}
 			
+			if (Constants.SITE_IS_EMBL()) {
+				site = Constants.SITE_EMBL;
+			}
+			
 			this.proposalService = (Proposal3Service) ejb3ServiceLocator.getLocalService(Proposal3Service.class);
 			List<Proposal3VO> proposals = this.proposalService.findProposalByLoginName(userName, site);
-
 			if (proposals == null || proposals.isEmpty()) {
 				if (Constants.SITE_IS_ESRF() || Constants.SITE_IS_SOLEIL()) {
 					// if the list of proposals is empty we try to update from SMIS

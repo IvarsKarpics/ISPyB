@@ -496,6 +496,7 @@ public class ToolsForAutoprocessingWebService {
 				cellA, cellB, cellC, cellAlpha, cellBeta, cellGamma, recordTimeStamp, anomalous);
 		return storeOrUpdateAutoProcIntegrationValue(vo);
 	}
+	
 
 	private Integer storeOrUpdateAutoProcProgramAttachmentValue(AutoProcProgramAttachmentWS3VO vo) throws Exception {
 		try {
@@ -559,6 +560,33 @@ public class ToolsForAutoprocessingWebService {
 		return storeOrUpdateAutoProcProgramAttachmentValue(vo);
 	}
 
+	
+	@WebMethod
+	@WebResult(name = "autoProcProgramAttachmentList")
+	public String[] getAutoProcAttachmentListByLogin(String loginName) throws Exception {
+		try {
+			LOG.debug("getAutoProcScalingIdList by login name: " + loginName);
+			String[] autoProcAttachmentList = new String[0];
+			//AutoProcScalingHasInt3Service autoProcScalingHasIntService = (AutoProcScalingHasInt3Service) ejb3ServiceLocator.getLocalService(AutoProcScalingHasInt3Service.class);
+			//List<AutoProcScalingHasInt3VO> list = autoProcScalingHasIntService.findFiltered(autoProcIntegrationId);
+			//if (list != null ){
+			//	autoProcScalingIdList = new int[list.size()];
+			//	int i=0;
+			//	for (Iterator<AutoProcScalingHasInt3VO> iterator = list.iterator(); iterator.hasNext();) {
+			//		AutoProcScalingHasInt3VO autoProcScalingHasInt3VO = (AutoProcScalingHasInt3VO) iterator
+			//				.next();
+			//		autoProcScalingIdList[i++] = autoProcScalingHasInt3VO.getAutoProcScalingVOId();
+			//	}
+			//}
+			LOG.debug("getAutoProcScalingIdList " +autoProcAttachmentList.length);
+			return autoProcAttachmentList;
+		} catch (Exception e) {
+			//LOG.error("WS ERROR: getAutoProcScalingIdList - " + StringUtils.getCurrentDate() + " - "
+			//		+ autoProcIntegrationId);
+			throw e;
+		}
+	}
+	
 	private Integer storeOrUpdateAutoProcProgramValue(AutoProcProgram3VO vo) throws Exception {
 		try {
 			LOG.debug("storeOrUpdateAutoProcProgramValue");
@@ -576,6 +604,7 @@ public class ToolsForAutoprocessingWebService {
 				autoProcProgram = autoProcProgramService.findByPk(autoProcProgramId, false);
 			}
 			autoProcProgram.setAutoProcProgramId(autoProcProgramId);
+			autoProcProgram.setDataCollectionId(vo.getDataCollectionId());
 			autoProcProgram.setProcessingCommandLine(vo.getProcessingCommandLine());
 			autoProcProgram.setProcessingPrograms(vo.getProcessingPrograms());
 			autoProcProgram.setProcessingStatus(vo.getProcessingStatus());
@@ -603,6 +632,7 @@ public class ToolsForAutoprocessingWebService {
 	@WebMethod
 	@WebResult(name = "autoProcProgramId")
 	public Integer storeOrUpdateAutoProcProgram(Integer autoProcProgramId,
+			@WebParam(name = "dataCollectionId") Integer dataCollectionId,
 			@WebParam(name = "processingCommandLine") String processingCommandLine,
 			@WebParam(name = "processingPrograms") String processingPrograms,
 			@WebParam(name = "processingStatus") String processingStatus,
@@ -611,7 +641,7 @@ public class ToolsForAutoprocessingWebService {
 			@WebParam(name = "processingEndTime") Date processingEndTime,
 			@WebParam(name = "processingEnvironment") String processingEnvironment,
 			@WebParam(name = "recordTimeStamp") Date recordTimeStamp) throws Exception {
-		AutoProcProgram3VO vo = new AutoProcProgram3VO(autoProcProgramId, processingCommandLine, processingPrograms,
+		AutoProcProgram3VO vo = new AutoProcProgram3VO(autoProcProgramId, dataCollectionId, processingCommandLine, processingPrograms,
 				processingStatus, processingMessage, processingStartTime, processingEndTime, processingEnvironment,
 				recordTimeStamp);
 		return storeOrUpdateAutoProcProgramValue(vo);

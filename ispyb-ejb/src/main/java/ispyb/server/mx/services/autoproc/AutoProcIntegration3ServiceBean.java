@@ -70,7 +70,7 @@ public class AutoProcIntegration3ServiceBean implements AutoProcIntegration3Serv
 			"api.autoProcProgramId = app.autoProcProgramId AND " +
 			"app.processingPrograms like :processingProgram AND  " +
 			"apppa.autoProcProgramId = app.autoProcProgramId AND " +
-			"apppa.fileName like '%XSCALE%' ";
+			"apppa.fileName like '%.mtz' ";
 
 	/* XIA2_DIALS don't create any XSCALE files so here we look for
 	 * a file with the prefix 'di' and the suffix '.mtz'.
